@@ -17,10 +17,14 @@ public class MapViewWrapper implements MapViewBase {
     private MapControllerWrapper mapControllerWrapper;
     private OverlayManager overlayManager;
 
+    private boolean zoomButtonsVisible;
+
     public MapViewWrapper(MapView mapView) {
         this.mapView = mapView;
         this.mapControllerWrapper = new MapControllerWrapper(this);
         this.overlayManager = new OverlayManager(this);
+
+        mapView.showZoomButtons(zoomButtonsVisible);
     }
 
     @Override
@@ -82,15 +86,16 @@ public class MapViewWrapper implements MapViewBase {
 
     @Override
     public boolean hasZoomController() {
-        return false;
+        return true;
     }
 
     @Override
     public void setZoomControllerVisible(boolean visible) {
+        mapView.showZoomButtons(visible);
     }
 
     @Override
     public boolean isZoomControllerVisible() {
-        return false;
+        return zoomButtonsVisible;
     }
 }
