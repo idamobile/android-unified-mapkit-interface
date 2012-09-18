@@ -80,4 +80,17 @@ public class MapViewWrapper implements MapViewBase {
         return new Point((int) screenPoint.getX(), (int) screenPoint.getY());
     }
 
+    @Override
+    public boolean hasZoomController() {
+        return false;
+    }
+
+    @Override
+    public void setZoomControllerVisible(boolean visible) {
+    }
+
+    @Override
+    public boolean isZoomControllerVisible() {
+        return false;
+    }
 }

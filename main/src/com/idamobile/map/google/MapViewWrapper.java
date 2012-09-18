@@ -80,4 +80,19 @@ public class MapViewWrapper implements MapViewBase {
         return result;
     }
 
+    @Override
+    public boolean hasZoomController() {
+        return true;
+    }
+
+    @Override
+    public void setZoomControllerVisible(boolean visible) {
+        mapView.getZoomButtonsController().setVisible(visible);
+    }
+
+    @Override
+    public boolean isZoomControllerVisible() {
+        return mapView.getZoomButtonsController().isVisible();
+    }
+
 }

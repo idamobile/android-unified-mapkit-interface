@@ -28,4 +28,10 @@ public interface MapViewBase {
 
     Point convertGeoPoint(IGeoPoint geoPoint);
 
+    boolean hasZoomController();
+
+    void setZoomControllerVisible(boolean visible);
+
+    boolean isZoomControllerVisible();
+
 }
