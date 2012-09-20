@@ -2,13 +2,16 @@ package com.idamobile.map;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.view.GestureDetector;
 import android.view.View;
 
-public interface MapViewBase {
+public interface MapViewBase extends Iterable<OverlayBase> {
 
     Context getContext();
 
     View getView();
+
+    void setGestureDetector(GestureDetector detector);
 
     MapControllerBase getController();
 
@@ -19,6 +22,10 @@ public interface MapViewBase {
     void addOverlay(OverlayBase overlay);
 
     boolean removeOverlay(OverlayBase overlay);
+
+    void removeAllOverlays();
+
+    boolean containsOverlay(OverlayBase overlay);
 
     void addMyLocationOverlay();
 

@@ -15,7 +15,9 @@ class ItemListOverlay extends ItemizedOverlay<OverlayItem> {
     private boolean isUpdating;
 
     public ItemListOverlay(Drawable marker) {
-        super(marker);
+        super(boundCenterBottom(marker));
+
+        populate();
     }
 
     public void beginUpdate() {

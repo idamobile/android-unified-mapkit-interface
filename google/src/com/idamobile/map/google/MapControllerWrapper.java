@@ -56,4 +56,18 @@ class MapControllerWrapper implements MapControllerBase {
         mapController.zoomOut();
     }
 
+    @Override
+    public void zoomToSpan(IGeoPoint span) {
+        mapController.zoomToSpan(span.getLat(), span.getLng());
+    }
+
+    @Override
+    public int getLatitudeSpan() {
+        return mapView.getLatitudeSpan();
+    }
+
+    @Override
+    public int getLongitudeSpan() {
+        return mapView.getLongitudeSpan();
+    }
 }

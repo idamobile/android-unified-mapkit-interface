@@ -1,44 +1,77 @@
-package com.idamobile.map.yandex;
+package com.idamobile.map.google;
 
 import java.util.Iterator;
 
-import ru.yandex.yandexmapkit.MapView;
-import ru.yandex.yandexmapkit.utils.ScreenPoint;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.google.android.maps.MapView;
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
 import com.idamobile.map.MapViewBase;
 import com.idamobile.map.MyLocationOverlayBase;
 import com.idamobile.map.OverlayBase;
+import com.idamobile.map.UniversalGeoPoint;
 
 public class MapViewWrapper implements MapViewBase {
 
     private MapView mapView;
     private MapControllerWrapper mapControllerWrapper;
     private OverlayManager overlayManager;
+    private GestureDetector detector;
 
-    private boolean zoomButtonsVisible;
 
-    public MapViewWrapper(MapView mapView) {
+    public MapViewWrapper(final MapView mapView) {
         this.mapView = mapView;
-        this.mapControllerWrapper = new MapControllerWrapper(this);
+        this.mapControllerWrapper = new MapControllerWrapper(mapView);
         this.overlayManager = new OverlayManager(this);
 
-        mapView.showFindMeButton(false);
-        mapView.showJamsButton(false);
-        mapView.showScaleView(false);
-        mapView.showZoomButtons(zoomButtonsVisible);
+        final GestureDetector gd = new GestureDetector(mapView.getContext(), new SimpleOnGestureListener());
+        gd.setOnDoubleTapListener(new OnDoubleTapListener() {
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
+                return false;
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                return false;
+            }
+
+        });
+        mapView.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                boolean res = false;
+                if (detector != null) {
+                    res = detector.onTouchEvent(event);
+                }
+                return res || gd.onTouchEvent(event);
+            }
+        });
     }
 
     @Override
     public Context getContext() {
         return mapView.getContext();
+    }
+
+    @Override
+    public void setGestureDetector(GestureDetector detector) {
+        this.detector = detector;
     }
 
     @Override
@@ -53,7 +86,7 @@ public class MapViewWrapper implements MapViewBase {
 
     @Override
     public int getOverlayCount() {
-        return overlayManager.getOverlayCount();
+        return mapView.getOverlays().size();
     }
 
     @Override
@@ -83,14 +116,14 @@ public class MapViewWrapper implements MapViewBase {
 
     @Override
     public IGeoPoint convertScreenPoint(Point point) {
-        return new UniversalGeoPoint(mapView.getMapController().getGeoPoint(new ScreenPoint(point.x, point.y)));
+        return new UniversalGeoPoint(mapView.getProjection().fromPixels(point.x, point.y));
     }
 
     @Override
     public Point convertGeoPoint(IGeoPoint geoPoint) {
-        ScreenPoint screenPoint = mapView.getMapController().getScreenPoint(
-                new UniversalGeoPoint(geoPoint).createYandexPoint());
-        return new Point((int) screenPoint.getX(), (int) screenPoint.getY());
+        Point result = new Point();
+        mapView.getProjection().toPixels(new UniversalGeoPoint(geoPoint).createGooglePoint(), result);
+        return result;
     }
 
     @Override
@@ -100,12 +133,22 @@ public class MapViewWrapper implements MapViewBase {
 
     @Override
     public void setZoomControllerVisible(boolean visible) {
-        mapView.showZoomButtons(visible);
+        if (visible) {
+            if (mapView.getZoomButtonsController() != null) {
+                mapView.getZoomButtonsController().setVisible(true);
+            } else {
+                mapView.setBuiltInZoomControls(true);
+            }
+        } else {
+            if (mapView.getZoomButtonsController() != null) {
+                mapView.getZoomButtonsController().setVisible(false);
+            }
+        }
     }
 
     @Override
     public boolean isZoomControllerVisible() {
-        return zoomButtonsVisible;
+        return mapView.getZoomButtonsController() != null && mapView.getZoomButtonsController().isVisible();
     }
 
     @Override
@@ -123,13 +166,4 @@ public class MapViewWrapper implements MapViewBase {
         return overlayManager.containsOverlay(overlay);
     }
 
-    @Override
-    public void setGestureDetector(final GestureDetector detector) {
-        mapView.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return detector.onTouchEvent(event);
-            }
-        });
-    }
 }

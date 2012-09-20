@@ -21,4 +21,6 @@ public interface ItemizedOverlayBase<T extends OverlayItemBase> extends OverlayB
 
     void unregisterDataSetObserver(DataSetObserver observer);
 
+    boolean onTap(T item);
+
 }

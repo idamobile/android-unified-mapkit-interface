@@ -36,6 +36,22 @@ public class UniversalGeoPoint implements IGeoPoint {
         longE6 = fromDoubleTo1e6(longitude);
     }
 
+    public UniversalGeoPoint(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+
+        latE6 = fromDoubleTo1e6(latitude);
+        longE6 = fromDoubleTo1e6(longitude);
+    }
+
+    public UniversalGeoPoint(int latE6, int longE6) {
+        this.latE6 = latE6;
+        this.longE6 = longE6;
+
+        latitude = from1e6ToDouble(latE6);
+        longitude = from1e6ToDouble(longE6);
+    }
+
     protected UniversalGeoPoint() {
     }
 

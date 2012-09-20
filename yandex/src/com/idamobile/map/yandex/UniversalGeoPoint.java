@@ -4,7 +4,7 @@ import android.location.Location;
 
 import com.idamobile.map.IGeoPoint;
 
-public class UniversalGeoPoint extends com.idamobile.map.UniversalGeoPoint {
+class UniversalGeoPoint extends com.idamobile.map.UniversalGeoPoint {
 
     public UniversalGeoPoint(com.google.android.maps.GeoPoint geoPoint) {
         super(geoPoint);

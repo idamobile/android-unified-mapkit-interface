@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import ru.yandex.yandexmapkit.overlay.Overlay;
@@ -16,7 +17,7 @@ import android.view.MotionEvent;
 import com.idamobile.map.ItemizedOverlayBase;
 import com.idamobile.map.OverlayItemBase;
 
-class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver {
+class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver implements OverlayAdapter {
 
     private Map<T, OverlayItem> adoptItems = new HashMap<T, OverlayItem>();
 
@@ -24,15 +25,22 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
     private Overlay resultOverlay;
     private OverlayItemAdapter itemAdapter;
 
-    private MapViewWrapper mapViewWrapper;
-
-    public ItemizedOverlayAdapter(MapViewWrapper mapViewWrapper) {
-        this.mapViewWrapper = mapViewWrapper;
+    public ItemizedOverlayAdapter(MapViewWrapper mapViewWrapper, ItemizedOverlayBase<T> overlay) {
+        this(mapViewWrapper, overlay, new SimpleOverlayItemAdapter(overlay.getMarker()));
     }
 
-    public ItemizedOverlayAdapter(ItemizedOverlayBase<T> overlay) {
+    public ItemizedOverlayAdapter(MapViewWrapper mapViewWrapper, ItemizedOverlayBase<T> overlay,
+            OverlayItemAdapter overlayItemAdapter) {
         this.baseOverlay = overlay;
-        this.resultOverlay = new Overlay(mapViewWrapper.getView().getMapController()) {
+        this.itemAdapter = overlayItemAdapter;
+        this.resultOverlay = wrapOverlay(overlay, mapViewWrapper);
+
+        baseOverlay.registerDataSetObserver(this);
+        refreshOverlay();
+    }
+
+    protected Overlay wrapOverlay(ItemizedOverlayBase<T> overlay, final MapViewWrapper mapViewWrapper) {
+        return new Overlay(mapViewWrapper.getView().getMapController()) {
             @Override
             public boolean onTouchEvent(MotionEvent arg0) {
                 return baseOverlay.onTouchEvent(arg0, mapViewWrapper) || super.onTouchEvent(arg0);
@@ -49,11 +57,8 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
             }
         };
 
-        this.itemAdapter = new OverlayItemAdapter();
-
-        baseOverlay.registerDataSetObserver(this);
-        refreshOverlay();
     }
+
 
     @Override
     public void onChanged() {
@@ -64,8 +69,27 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
     public void onInvalidated() {
     }
 
+    @Override
     public Overlay getResultOverlay() {
         return resultOverlay;
+    }
+
+    @Override
+    public ItemizedOverlayBase<T> getBaseOverlay() {
+        return baseOverlay;
+    }
+
+    protected T getOriginalItem(OverlayItem item) {
+        for (Entry<T, OverlayItem> entry : adoptItems.entrySet()) {
+            if (entry.getValue() == item) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    protected OverlayItem getResultItem(T original) {
+        return adoptItems.get(original);
     }
 
     private void refreshOverlay() {
@@ -90,5 +114,10 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
                 baseItemIter.remove();
             }
         }
+    }
+
+    @Override
+    public void release() {
+        baseOverlay.unregisterDataSetObserver(this);
     }
 }

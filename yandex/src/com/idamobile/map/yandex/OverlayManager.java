@@ -1,25 +1,27 @@
 package com.idamobile.map.yandex;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import ru.yandex.yandexmapkit.MapView;
 import ru.yandex.yandexmapkit.overlay.Overlay;
-import ru.yandex.yandexmapkit.overlay.location.MyLocationOverlay;
 
+import com.idamobile.map.BalloonOverlayExtension;
 import com.idamobile.map.ItemizedOverlayBase;
 import com.idamobile.map.MyLocationOverlayBase;
 import com.idamobile.map.OverlayBase;
 
-class OverlayManager {
+class OverlayManager implements Iterable<OverlayBase> {
 
     private List<OverlayBase> overlays = new ArrayList<OverlayBase>();
     private MapView mapView;
     private MapViewWrapper mapViewWrapper;
 
-    private Map<OverlayBase, Overlay> adoptOverlays = new HashMap<OverlayBase, Overlay>();
+    private Map<OverlayBase, OverlayAdapter> adoptOverlays = new HashMap<OverlayBase, OverlayAdapter>();
 
     public OverlayManager(MapViewWrapper mapViewWrapper) {
         this.mapViewWrapper = mapViewWrapper;
@@ -34,21 +36,26 @@ class OverlayManager {
         return overlays.get(index);
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addOverlay(OverlayBase overlay) {
         if (!overlays.contains(overlay)) {
-            Overlay adoptOverlay = null;
+            OverlayAdapter adapter = null;
             if (overlay instanceof ItemizedOverlayBase) {
-                ItemizedOverlayAdapter adapter = new ItemizedOverlayAdapter(mapViewWrapper);
-                adoptOverlay = adapter.getResultOverlay();
+                if (overlay instanceof BalloonOverlayExtension) {
+                    adapter = new BalloonOverlayAdapter(mapViewWrapper,
+                            (ItemizedOverlayBase) overlay);
+                } else {
+                    adapter = new ItemizedOverlayAdapter(mapViewWrapper,
+                            (ItemizedOverlayBase) overlay);
+                }
             } else {
                 throw new IllegalArgumentException("Unable to process overlay class " + overlay.getClass()
                         + ". Supports only instances of " + ItemizedOverlayBase.class);
             }
 
-            if (adoptOverlay != null) {
-                mapView.getMapController().getOverlayManager().addOverlay(adoptOverlay);
-                adoptOverlays.put(overlay, adoptOverlay);
+            if (adapter != null) {
+                mapView.getMapController().getOverlayManager().addOverlay(adapter.getResultOverlay());
+                adoptOverlays.put(overlay, adapter);
                 overlays.add(overlay);
             }
         }
@@ -56,9 +63,11 @@ class OverlayManager {
 
     public boolean removeOverlay(OverlayBase overlay) {
         if (overlays.remove(overlay)) {
-            Overlay adoptOverlay = adoptOverlays.get(overlay);
+            OverlayAdapter adapter = adoptOverlays.get(overlay);
+            Overlay adoptOverlay = adapter.getResultOverlay();
             mapView.getMapController().getOverlayManager().removeOverlay(adoptOverlay);
             adoptOverlays.remove(overlay);
+            adapter.release();
             return true;
         } else {
             return false;
@@ -70,17 +79,33 @@ class OverlayManager {
             MyLocationOverlayAdapter adapter = new MyLocationOverlayAdapter(mapViewWrapper);
             overlays.add(adapter);
             mapView.getMapController().getOverlayManager().addOverlay(adapter.getResultOverlay());
-            adoptOverlays.put(adapter, adapter.getResultOverlay());
+            adoptOverlays.put(adapter, adapter);
         }
     }
 
     public MyLocationOverlayBase getMyLocationOverlay() {
         for (OverlayBase overlayBase : overlays) {
-            if (overlayBase instanceof MyLocationOverlay) {
+            if (overlayBase instanceof MyLocationOverlayBase) {
                 return (MyLocationOverlayBase) overlayBase;
             }
         }
         return null;
+    }
+
+    public void removeAllOverlays() {
+        List<OverlayBase> overlays = new ArrayList<OverlayBase>(this.overlays);
+        for (OverlayBase overlay : overlays) {
+            removeOverlay(overlay);
+        }
+    }
+
+    @Override
+    public Iterator<OverlayBase> iterator() {
+        return Collections.unmodifiableList(overlays).iterator();
+    }
+
+    public boolean containsOverlay(OverlayBase overlay) {
+        return overlays.contains(overlay);
     }
 
 }

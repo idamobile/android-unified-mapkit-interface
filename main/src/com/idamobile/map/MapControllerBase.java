@@ -13,10 +13,16 @@ public interface MapControllerBase {
 
     int getMaxZoomLevel();
 
+    void zoomToSpan(IGeoPoint span);
+
     void setZoomLevel(int zoomLevel);
 
     void zoomIn();
 
     void zoomOut();
+
+    int getLatitudeSpan();
+
+    int getLongitudeSpan();
 
 }

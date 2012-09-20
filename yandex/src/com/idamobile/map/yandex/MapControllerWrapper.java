@@ -1,13 +1,15 @@
 package com.idamobile.map.yandex;
 
 import ru.yandex.yandexmapkit.MapController;
+import ru.yandex.yandexmapkit.utils.GeoPoint;
+import ru.yandex.yandexmapkit.utils.ScreenPoint;
 
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
 
 class MapControllerWrapper implements MapControllerBase {
 
-    public static final int MAX_ZOOM_LEVELS = 20;
+    public static final int MAX_ZOOM_LEVELS = 15;
 
     private MapController mapController;
 
@@ -32,7 +34,7 @@ class MapControllerWrapper implements MapControllerBase {
 
     @Override
     public int getZoomLevel() {
-        return (int) (mapController.getZoomCurrent() * MAX_ZOOM_LEVELS);
+        return (int) mapController.getZoomCurrent();
     }
 
     @Override
@@ -42,7 +44,7 @@ class MapControllerWrapper implements MapControllerBase {
 
     @Override
     public void setZoomLevel(int zoomLevel) {
-        mapController.setZoomCurrent(zoomLevel / (float) MAX_ZOOM_LEVELS);
+        mapController.setZoomCurrent(zoomLevel);
     }
 
     @Override
@@ -53,6 +55,35 @@ class MapControllerWrapper implements MapControllerBase {
     @Override
     public void zoomOut() {
         mapController.zoomOut();
+    }
+
+    @Override
+    public void zoomToSpan(IGeoPoint span) {
+        setZoomLevel(getMaxZoomLevel());
+        while (true) {
+            int latSpan = getLatitudeSpan();
+            int lngSpan = getLongitudeSpan();
+            if ((latSpan > span.getLat() && lngSpan > span.getLng()) || getZoomLevel() == 1) {
+                break;
+            }
+            setZoomLevel(getZoomLevel() - 1);
+        }
+    }
+
+    @Override
+    public int getLatitudeSpan() {
+        GeoPoint leftTopCorner = mapController.getGeoPoint(new ScreenPoint(0, 0));
+        GeoPoint rightBottomCorner = mapController.getGeoPoint(
+                new ScreenPoint(mapController.getMapView().getWidth(), mapController.getMapView().getHeight()));
+        return Math.abs(UniversalGeoPoint.fromDoubleTo1e6(rightBottomCorner.getLat() - leftTopCorner.getLat()));
+    }
+
+    @Override
+    public int getLongitudeSpan() {
+        GeoPoint leftTopCorner = mapController.getGeoPoint(new ScreenPoint(0, 0));
+        GeoPoint rightBottomCorner = mapController.getGeoPoint(
+                new ScreenPoint(mapController.getMapView().getWidth(), mapController.getMapView().getHeight()));
+        return Math.abs(UniversalGeoPoint.fromDoubleTo1e6(rightBottomCorner.getLon() - leftTopCorner.getLon()));
     }
 
 }

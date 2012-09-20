@@ -82,4 +82,9 @@ public class ItemListOverlay<T extends OverlayItemBase> implements ItemizedOverl
         return false;
     }
 
+    @Override
+    public boolean onTap(T item) {
+        return false;
+    }
+
 }

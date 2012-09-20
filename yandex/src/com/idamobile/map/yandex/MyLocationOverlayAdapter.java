@@ -6,12 +6,14 @@ import ru.yandex.yandexmapkit.overlay.location.OnMyLocationListener;
 
 import com.idamobile.map.AbstractMyLocationOverlay;
 import com.idamobile.map.IGeoPoint;
+import com.idamobile.map.OverlayBase;
 
-class MyLocationOverlayAdapter extends AbstractMyLocationOverlay {
+class MyLocationOverlayAdapter extends AbstractMyLocationOverlay implements OverlayAdapter {
 
     private MyLocationOverlay resultOverlay;
 
     public MyLocationOverlayAdapter(MapViewWrapper mapViewWrapper) {
+        resultOverlay = new MyLocationOverlay(mapViewWrapper.getView().getMapController());
         resultOverlay.addMyLocationListener(new OnMyLocationListener() {
             @Override
             public void onMyLocationChange(MyLocationItem arg0) {
@@ -20,6 +22,7 @@ class MyLocationOverlayAdapter extends AbstractMyLocationOverlay {
         });
     }
 
+    @Override
     public MyLocationOverlay getResultOverlay() {
         return resultOverlay;
     }
@@ -44,6 +47,15 @@ class MyLocationOverlayAdapter extends AbstractMyLocationOverlay {
         return resultOverlay.getMyLocationItem() != null
                 ? new UniversalGeoPoint(resultOverlay.getMyLocationItem().getGeoPoint())
         : null;
+    }
+
+    @Override
+    public OverlayBase getBaseOverlay() {
+        return this;
+    }
+
+    @Override
+    public void release() {
     }
 
 }

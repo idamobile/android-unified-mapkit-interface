@@ -5,9 +5,10 @@ import android.location.Location;
 import com.google.android.maps.MyLocationOverlay;
 import com.idamobile.map.AbstractMyLocationOverlay;
 import com.idamobile.map.IGeoPoint;
+import com.idamobile.map.OverlayBase;
 import com.idamobile.map.UniversalGeoPoint;
 
-class MyLocationOverlayAdapter extends AbstractMyLocationOverlay {
+class MyLocationOverlayAdapter extends AbstractMyLocationOverlay implements OverlayAdapter {
 
     private MyLocationOverlay resultOverlay;
 
@@ -22,6 +23,7 @@ class MyLocationOverlayAdapter extends AbstractMyLocationOverlay {
         };
     }
 
+    @Override
     public MyLocationOverlay getResultOverlay() {
         return resultOverlay;
     }
@@ -46,6 +48,15 @@ class MyLocationOverlayAdapter extends AbstractMyLocationOverlay {
         return resultOverlay.getMyLocation() != null
                 ? new UniversalGeoPoint(resultOverlay.getMyLocation())
         : null;
+    }
+
+    @Override
+    public OverlayBase getBaseOverlay() {
+        return this;
+    }
+
+    @Override
+    public void release() {
     }
 
 }
