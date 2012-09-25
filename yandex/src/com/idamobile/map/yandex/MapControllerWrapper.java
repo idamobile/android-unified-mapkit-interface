@@ -1,6 +1,7 @@
 package com.idamobile.map.yandex;
 
 import ru.yandex.yandexmapkit.MapController;
+import ru.yandex.yandexmapkit.MapModel;
 import ru.yandex.yandexmapkit.utils.GeoPoint;
 import ru.yandex.yandexmapkit.utils.ScreenPoint;
 
@@ -8,8 +9,6 @@ import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
 
 class MapControllerWrapper implements MapControllerBase {
-
-    public static final int MAX_ZOOM_LEVELS = 15;
 
     private MapController mapController;
 
@@ -39,7 +38,7 @@ class MapControllerWrapper implements MapControllerBase {
 
     @Override
     public int getMaxZoomLevel() {
-        return MAX_ZOOM_LEVELS;
+        return MapModel.MAX_ZOOM;
     }
 
     @Override
