@@ -89,10 +89,6 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
     private void refreshOverlay() {
         resultOverlay.beginUpdate();
 
-        OverlayItem focusedItem = resultOverlay.getFocus();
-        OverlayItem foundFocusedItem = null;
-        resultOverlay.clear();
-
         Set<T> baseItems = new HashSet<T>(baseOverlay.getItemCount());
         for (int i = 0; i < baseOverlay.getItemCount(); i++) {
             T itemBase = baseOverlay.getItem(i);
@@ -102,20 +98,19 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
             if (resultItem == null) {
                 resultItem = itemAdapter.getItem(itemBase);
                 adoptItems.put(itemBase, resultItem);
-            } else if (resultItem == focusedItem) {
-                foundFocusedItem = resultItem;
+                resultOverlay.addItem(resultItem);
             }
-            resultOverlay.addItem(resultItem);
         }
 
         for (Iterator<T> baseItemIter = adoptItems.keySet().iterator(); baseItemIter.hasNext();) {
-            if (!baseItems.contains(baseItemIter.next())) {
+            T item = baseItemIter.next();
+            if (!baseItems.contains(item)) {
+                resultOverlay.removeItem(adoptItems.get(item));
                 baseItemIter.remove();
             }
         }
 
         resultOverlay.endUpdate();
-        resultOverlay.setFocus(foundFocusedItem);
     }
 
     @Override
