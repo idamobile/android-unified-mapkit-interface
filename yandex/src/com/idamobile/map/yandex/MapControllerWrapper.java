@@ -10,7 +10,10 @@ import com.idamobile.map.MapControllerBase;
 
 class MapControllerWrapper implements MapControllerBase {
 
+    private static final long ZOOM_ANIMATION_FRAME_DURATION = 50;
+
     private MapController mapController;
+    private boolean zoomLevelAnimationStopped = true;
 
     public MapControllerWrapper(MapViewWrapper mapViewWrapper) {
         this.mapController = mapViewWrapper.getView().getMapController();
@@ -43,6 +46,13 @@ class MapControllerWrapper implements MapControllerBase {
 
     @Override
     public void setZoomLevel(int zoomLevel) {
+        setZoomLevelInternal(zoomLevel, true);
+    }
+
+    private void setZoomLevelInternal(int zoomLevel, boolean fromUser) {
+        if (fromUser) {
+            zoomLevelAnimationStopped = true;
+        }
         mapController.setZoomCurrent(zoomLevel);
     }
 
@@ -58,15 +68,30 @@ class MapControllerWrapper implements MapControllerBase {
 
     @Override
     public void zoomToSpan(IGeoPoint span) {
-        setZoomLevel(getMaxZoomLevel());
-        while (true) {
-            int latSpan = getLatitudeSpan();
-            int lngSpan = getLongitudeSpan();
-            if ((latSpan > span.getLat() && lngSpan > span.getLng()) || getZoomLevel() == 1) {
-                break;
-            }
-            setZoomLevel(getZoomLevel() - 1);
+        zoomLevelAnimationStopped = false;
+        zoomToSpanIter(span);
+    }
+
+    private void zoomToSpanIter(IGeoPoint span) {
+        if (zoomLevelAnimationStopped) {
+            return;
         }
+
+        setZoomLevelInternal(getZoomLevel() - 1, false);
+        int latSpan = getLatitudeSpan();
+        int lngSpan = getLongitudeSpan();
+        if ((latSpan < span.getLat() || lngSpan < span.getLng()) && getZoomLevel() != 1) {
+            scheduleNextZoomFrame(span);
+        }
+    }
+
+    private void scheduleNextZoomFrame(final IGeoPoint span) {
+        mapController.getMapView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                zoomToSpanIter(span);
+            }
+        }, ZOOM_ANIMATION_FRAME_DURATION);
     }
 
     @Override
