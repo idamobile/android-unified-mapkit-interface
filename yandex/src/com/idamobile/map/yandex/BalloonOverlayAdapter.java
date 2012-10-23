@@ -31,7 +31,10 @@ class BalloonOverlayAdapter<T extends OverlayItemBase> extends ItemizedOverlayAd
 
             @Override
             protected void showBalloon(OverlayItemBase forItem, Animation animation) {
-                mapViewWrapper.getView().getMapController().showBalloon(getResultItem((T) forItem).getBalloonItem());
+                OverlayItem item = getResultItem((T) forItem);
+                if (item != null) {
+                    mapViewWrapper.getView().getMapController().showBalloon(item.getBalloonItem());
+                }
             }
 
             @Override
