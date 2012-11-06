@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>Unified Mapkit Interface Yandex Mapkit Addon</name>
+    <name>Unified Mapkit Interface Google Maps Addon</name>
 
     <groupId>com.idamobile.android.map</groupId>
-    <artifactId>unified-mapkit-interface-yandex</artifactId>
+    <artifactId>unified-mapkit-interface-google-addon</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
@@ -22,16 +22,14 @@
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>ru.yandex.yandexmapkit</groupId>
-            <artifactId>yandexmapkit-library</artifactId>
-            <type>apklib</type>
+            <groupId>com.google.android.maps</groupId>
+            <artifactId>maps</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.idamobile.android.map</groupId>
-            <artifactId>unified-mapkit-interface-main</artifactId>
+            <artifactId>unified-mapkit-interface-library</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

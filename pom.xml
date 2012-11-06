@@ -12,9 +12,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>main</module>
-        <module>google</module>
-        <module>yandex</module>
+        <module>library</module>
+        <module>google-addon</module>
+        <module>yandex-addon</module>
     </modules>
 
     <properties>
@@ -45,6 +45,7 @@
                 <artifactId>yandexmapkit-library</artifactId>
                 <version>${ymaps.version}</version>
                 <scope>provided</scope>
+                <type>apklib</type>
             </dependency>
         </dependencies> 
     </dependencyManagement>

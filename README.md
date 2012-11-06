@@ -1,8 +1,8 @@
-Single Map Interface
+Unified MapKit Interface for Android
 ============================
 
-Project provides singe interface for different map providers. 
+Project provides unified interface for different mapkit providers. 
 
 Currently supported:
 * Google Maps
-* Yandex Maps
+* Yandex MapKit
