@@ -4,20 +4,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 class ItemListOverlay extends ItemizedOverlay<OverlayItem> {
 
     private List<OverlayItem> items = new ArrayList<OverlayItem>();
     private boolean isUpdating;
+    private boolean ignoreShadow;
 
     public ItemListOverlay(Drawable marker) {
         super(boundCenterBottom(marker));
 
         populate();
+    }
+
+    public void setIgnoreShadow(boolean ignoreShadow) {
+        this.ignoreShadow = ignoreShadow;
     }
 
     public void beginUpdate() {
@@ -62,6 +69,11 @@ class ItemListOverlay extends ItemizedOverlay<OverlayItem> {
 
     protected List<OverlayItem> getItems() {
         return Collections.unmodifiableList(items);
+    }
+
+    @Override
+    public void draw(Canvas paramCanvas, MapView paramMapView, boolean shadow) {
+        super.draw(paramCanvas, paramMapView, shadow && !ignoreShadow);
     }
 
     @Override
