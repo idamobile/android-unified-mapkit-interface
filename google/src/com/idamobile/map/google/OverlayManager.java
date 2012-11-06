@@ -67,7 +67,7 @@ class OverlayManager implements Iterable<OverlayBase> {
         if (overlay instanceof ShadowOverlayExtension) {
             if (resultOverlay instanceof ItemListOverlay) {
                 ((ItemListOverlay) resultOverlay).setIgnoreShadow(
-                        ((ShadowOverlayExtension) overlay).isShadowEnabled());
+                        !((ShadowOverlayExtension) overlay).isShadowEnabled());
             }
         }
     }
