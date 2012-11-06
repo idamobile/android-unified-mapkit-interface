@@ -12,7 +12,15 @@
 bin/
 gen/
 
+target/
+
 # Local configuration file (sdk path, etc)
 local.properties
-*/.classpath
-**/.idea/*
+
+# IDE specific files
+.classpath
+.project
+.settings/
+
+*.iml
+.idea/

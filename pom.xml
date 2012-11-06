@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>Unified Mapkit Interface (Parent)</name>
+
+    <groupId>com.idamobile.android.map</groupId>
+    <artifactId>unified-mapkit-interface-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>main</module>
+        <module>google</module>
+        <module>yandex</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <android.version>4.1.1.4</android.version>
+        <gmaps.version>16_r2</gmaps.version>
+        <ymaps.version>2.0</ymaps.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.android</groupId>
+                <artifactId>android</artifactId>
+                <version>${android.version}</version>
+                <scope>provided</scope>
+            </dependency>  
+            <dependency>
+                <groupId>com.google.android.maps</groupId>
+                <artifactId>maps</artifactId>
+                <version>${gmaps.version}</version>
+                <scope>provided</scope>
+            </dependency>      
+
+            <dependency>
+                <groupId>ru.yandex.yandexmapkit</groupId>
+                <artifactId>yandexmapkit-library</artifactId>
+                <version>${ymaps.version}</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies> 
+    </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>ida-repo-releases</id>
+            <name>iDa Mobile Repo - Releases</name>
+            <url>http://project.idamob.ru:8000/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>ida-repo-snapshots</id>
+            <name>iDa Mobile Repo - Snapshots</name>
+            <url>http://project.idamob.ru:8000/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+    </build>
+</project>
