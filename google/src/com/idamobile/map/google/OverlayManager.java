@@ -13,6 +13,7 @@ import com.idamobile.map.BalloonOverlayExtension;
 import com.idamobile.map.ItemizedOverlayBase;
 import com.idamobile.map.MyLocationOverlayBase;
 import com.idamobile.map.OverlayBase;
+import com.idamobile.map.ShadowOverlayExtension;
 
 class OverlayManager implements Iterable<OverlayBase> {
 
@@ -53,9 +54,20 @@ class OverlayManager implements Iterable<OverlayBase> {
             }
 
             if (adapter != null) {
-                mapView.getOverlays().add(adapter.getResultOverlay());
+                Overlay resultOverlay = adapter.getResultOverlay();
+                applyShadowExtension(overlay, resultOverlay);
+                mapView.getOverlays().add(resultOverlay);
                 adoptOverlays.put(overlay, adapter);
                 overlays.add(overlay);
+            }
+        }
+    }
+
+    private void applyShadowExtension(OverlayBase overlay, Overlay resultOverlay) {
+        if (overlay instanceof ShadowOverlayExtension) {
+            if (resultOverlay instanceof ItemListOverlay) {
+                ((ItemListOverlay) resultOverlay).setIgnoreShadow(
+                        !((ShadowOverlayExtension) overlay).isShadowEnabled());
             }
         }
     }
