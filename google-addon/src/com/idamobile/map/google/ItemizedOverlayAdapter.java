@@ -16,7 +16,6 @@ import com.google.android.maps.OverlayItem;
 import com.idamobile.map.ItemizedOverlayBase;
 import com.idamobile.map.MapViewBase;
 import com.idamobile.map.OverlayItemBase;
-import com.idamobile.map.UniversalGeoPoint;
 
 class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver implements OverlayAdapter {
 

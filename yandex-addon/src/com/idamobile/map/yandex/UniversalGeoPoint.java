@@ -6,10 +6,6 @@ import com.idamobile.map.IGeoPoint;
 
 class UniversalGeoPoint extends com.idamobile.map.UniversalGeoPoint {
 
-    public UniversalGeoPoint(com.google.android.maps.GeoPoint geoPoint) {
-        super(geoPoint);
-    }
-
     public UniversalGeoPoint(IGeoPoint geoPoint) {
         super(geoPoint);
     }

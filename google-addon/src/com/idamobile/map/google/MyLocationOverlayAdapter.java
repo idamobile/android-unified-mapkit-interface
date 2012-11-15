@@ -6,7 +6,6 @@ import com.google.android.maps.MyLocationOverlay;
 import com.idamobile.map.AbstractMyLocationOverlay;
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.OverlayBase;
-import com.idamobile.map.UniversalGeoPoint;
 
 class MyLocationOverlayAdapter extends AbstractMyLocationOverlay implements OverlayAdapter {
 

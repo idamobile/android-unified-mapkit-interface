@@ -2,8 +2,6 @@ package com.idamobile.map;
 
 import android.location.Location;
 
-import com.google.android.maps.GeoPoint;
-
 public class UniversalGeoPoint implements IGeoPoint {
 
     protected double latitude;
@@ -15,14 +13,6 @@ public class UniversalGeoPoint implements IGeoPoint {
     public UniversalGeoPoint(IGeoPoint geoPoint) {
         latE6 = geoPoint.getLat();
         longE6 = geoPoint.getLng();
-
-        latitude = from1e6ToDouble(latE6);
-        longitude = from1e6ToDouble(longE6);
-    }
-
-    public UniversalGeoPoint(GeoPoint geoPoint) {
-        latE6 = geoPoint.getLatitudeE6();
-        longE6 = geoPoint.getLongitudeE6();
 
         latitude = from1e6ToDouble(latE6);
         longitude = from1e6ToDouble(longE6);
@@ -71,10 +61,6 @@ public class UniversalGeoPoint implements IGeoPoint {
 
     public double getLongitude() {
         return longitude;
-    }
-
-    public GeoPoint createGooglePoint() {
-        return new GeoPoint(latE6, longE6);
     }
 
     public static double from1e6ToDouble(int coord) {

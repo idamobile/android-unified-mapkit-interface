@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.OverlayItem;
 import com.idamobile.map.OverlayItemBase;
-import com.idamobile.map.UniversalGeoPoint;
 
 class OverlayItemAdapter {
 

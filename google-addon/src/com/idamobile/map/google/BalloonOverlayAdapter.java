@@ -13,7 +13,6 @@ import com.idamobile.map.BalloonOverlayExtension;
 import com.idamobile.map.ItemizedOverlayBase;
 import com.idamobile.map.MapViewBase;
 import com.idamobile.map.OverlayItemBase;
-import com.idamobile.map.UniversalGeoPoint;
 
 class BalloonOverlayAdapter<T extends OverlayItemBase> extends ItemizedOverlayAdapter<T> {
 

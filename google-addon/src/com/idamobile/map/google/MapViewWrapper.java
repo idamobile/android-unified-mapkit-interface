@@ -17,7 +17,6 @@ import com.idamobile.map.MapControllerBase;
 import com.idamobile.map.MapViewBase;
 import com.idamobile.map.MyLocationOverlayBase;
 import com.idamobile.map.OverlayBase;
-import com.idamobile.map.UniversalGeoPoint;
 
 public class MapViewWrapper implements MapViewBase {
 

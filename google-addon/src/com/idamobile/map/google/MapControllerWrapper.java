@@ -4,7 +4,6 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
-import com.idamobile.map.UniversalGeoPoint;
 
 class MapControllerWrapper implements MapControllerBase {
 
