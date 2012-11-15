@@ -63,6 +63,13 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <repositories>
+        <repository>
+            <id>ida-repo-public</id>
+            <url>http://project.idamob.ru:8000/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
     <build>
         <sourceDirectory>src</sourceDirectory>
     </build>
