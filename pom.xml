@@ -32,13 +32,13 @@
                 <artifactId>android</artifactId>
                 <version>${android.version}</version>
                 <scope>provided</scope>
-            </dependency>  
+            </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
                 <artifactId>maps</artifactId>
                 <version>${gmaps.version}</version>
                 <scope>provided</scope>
-            </dependency>      
+            </dependency>
 
             <dependency>
                 <groupId>ru.yandex.yandexmapkit</groupId>
@@ -47,8 +47,15 @@
                 <scope>provided</scope>
                 <type>apklib</type>
             </dependency>
-        </dependencies> 
+        </dependencies>
     </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>ida-repo-public</id>
+            <url>http://project.idamob.ru:8000/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
 
     <distributionManagement>
         <repository>
@@ -62,13 +69,6 @@
             <url>http://project.idamob.ru:8000/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>ida-repo-public</id>
-            <url>http://project.idamob.ru:8000/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
