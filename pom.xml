@@ -45,7 +45,7 @@
                 <artifactId>yandexmapkit-library</artifactId>
                 <version>${ymaps.version}</version>
                 <scope>provided</scope>
-                <type>apklib</type>
+                <type>jar</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -53,7 +53,7 @@
     <repositories>
         <repository>
             <id>ida-repo-public</id>
-            <url>http://project.idamob.ru:8000/nexus/content/groups/public/</url>
+            <url>http://nexus.idamob.ru/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -61,12 +61,12 @@
         <repository>
             <id>ida-repo-releases</id>
             <name>iDa Mobile Repo - Releases</name>
-            <url>http://project.idamob.ru:8000/nexus/content/repositories/releases</url>
+            <url>http://nexus.idamob.ru/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>ida-repo-snapshots</id>
             <name>iDa Mobile Repo - Snapshots</name>
-            <url>http://project.idamob.ru:8000/nexus/content/repositories/snapshots</url>
+            <url>http://nexus.idamob.ru/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
