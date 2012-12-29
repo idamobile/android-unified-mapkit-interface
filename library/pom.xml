@@ -9,8 +9,6 @@
     <artifactId>unified-mapkit-interface-library</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <packaging>jar</packaging>
-
     <parent>
         <groupId>com.idamobile.android.map</groupId>
         <artifactId>unified-mapkit-interface-parent</artifactId>
@@ -21,10 +19,6 @@
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.android.maps</groupId>
-            <artifactId>maps</artifactId>
         </dependency>
     </dependencies>
 </project>
