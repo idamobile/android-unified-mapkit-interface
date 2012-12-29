@@ -9,6 +9,8 @@ public interface MapControllerBase {
 
     void animateTo(IGeoPoint center);
 
+    void animateTo(IGeoPoint center, int zoomLevel);
+
     int getZoomLevel();
 
     int getMaxZoomLevel();

@@ -4,11 +4,14 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
+import com.idamobile.map.ZoomAnimationTask;
 
 class MapControllerWrapper implements MapControllerBase {
 
     private MapController mapController;
     private MapView mapView;
+
+    private ZoomAnimationTask zoomTask;
 
     public MapControllerWrapper(MapView mapView) {
         this.mapView = mapView;
@@ -28,6 +31,19 @@ class MapControllerWrapper implements MapControllerBase {
     @Override
     public void animateTo(IGeoPoint center) {
         mapController.animateTo(new UniversalGeoPoint(center).createGooglePoint());
+    }
+
+    @Override
+    public void animateTo(IGeoPoint center, int zoomLevel) {
+        if (zoomLevel == getZoomLevel()) {
+            animateTo(center);
+        } else {
+            if (zoomTask != null) {
+                zoomTask.cancel();
+            }
+            zoomTask = new ZoomAnimationTask(center, zoomLevel, this, mapView.getHandler());
+            zoomTask.start();
+        }
     }
 
     @Override

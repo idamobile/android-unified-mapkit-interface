@@ -41,4 +41,6 @@ public interface MapViewBase extends Iterable<OverlayBase> {
 
     boolean isZoomControllerVisible();
 
+    void invalidate();
+
 }

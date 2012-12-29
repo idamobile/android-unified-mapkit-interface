@@ -1,7 +1,5 @@
 package com.idamobile.map.google;
 
-import java.util.Iterator;
-
 import android.content.Context;
 import android.graphics.Point;
 import android.view.GestureDetector;
@@ -10,13 +8,10 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-
 import com.google.android.maps.MapView;
-import com.idamobile.map.IGeoPoint;
-import com.idamobile.map.MapControllerBase;
-import com.idamobile.map.MapViewBase;
-import com.idamobile.map.MyLocationOverlayBase;
-import com.idamobile.map.OverlayBase;
+import com.idamobile.map.*;
+
+import java.util.Iterator;
 
 public class MapViewWrapper implements MapViewBase {
 
@@ -148,6 +143,11 @@ public class MapViewWrapper implements MapViewBase {
     @Override
     public boolean isZoomControllerVisible() {
         return mapView.getZoomButtonsController() != null && mapView.getZoomButtonsController().isVisible();
+    }
+
+    @Override
+    public void invalidate() {
+        mapView.invalidate();
     }
 
     @Override
