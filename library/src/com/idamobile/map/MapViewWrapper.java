@@ -1,12 +1,12 @@
 package com.idamobile.map;
 
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapViewWrapper {
 
@@ -53,12 +53,16 @@ public class MapViewWrapper {
     }
 
     public MapViewBase wrap(View mapView) {
-        Constructor<? extends MapViewBase> cons = wrappers.get(mapView.getClass());
-        if (cons != null) {
-            try {
-                return cons.newInstance(mapView);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        for (Class<?> clazz : wrappers.keySet()) {
+            if (clazz.isInstance(mapView)) {
+                Constructor<? extends MapViewBase> cons = wrappers.get(clazz);
+                if (cons != null) {
+                    try {
+                        return cons.newInstance(mapView);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         }
         throw new IllegalArgumentException("This view " + mapView + " isn't mapView or not supported");
