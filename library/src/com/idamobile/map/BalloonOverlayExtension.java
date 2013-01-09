@@ -10,6 +10,8 @@ public interface BalloonOverlayExtension<T extends OverlayItemBase> {
         View createView(Context context);
 
         void bindView(Context context, View convertView, OverlayItemBase item);
+
+        void onBalloonClick(OverlayItemBase item);
     }
 
     public interface BallonController {

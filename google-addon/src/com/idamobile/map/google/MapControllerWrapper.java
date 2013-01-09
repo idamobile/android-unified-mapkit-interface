@@ -34,7 +34,7 @@ class MapControllerWrapper implements MapControllerBase {
     }
 
     @Override
-    public void animateTo(IGeoPoint center, int zoomLevel) {
+    public void animateTo(IGeoPoint center, float zoomLevel) {
         if (zoomLevel == getZoomLevel()) {
             animateTo(center);
         } else {
@@ -47,18 +47,18 @@ class MapControllerWrapper implements MapControllerBase {
     }
 
     @Override
-    public int getZoomLevel() {
+    public float getZoomLevel() {
         return mapView.getZoomLevel();
     }
 
     @Override
-    public int getMaxZoomLevel() {
+    public float getMaxZoomLevel() {
         return mapView.getMaxZoomLevel();
     }
 
     @Override
-    public void setZoomLevel(int zoomLevel) {
-        mapController.setZoom(zoomLevel);
+    public void setZoomLevel(float zoomLevel) {
+        mapController.setZoom((int) zoomLevel);
     }
 
     @Override

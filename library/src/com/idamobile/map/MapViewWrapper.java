@@ -2,7 +2,6 @@ package com.idamobile.map;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -17,6 +16,9 @@ public class MapViewWrapper {
 
     private static final String GOOGLE_MAP_VIEW_CLASS = "com.google.android.maps.MapView";
     private static final String GOOGLE_MAP_WRAPPER_CLASS = "com.idamobile.map.google.MapViewWrapper";
+
+    private static final String GOOGLE_MAP_FRAGMENT_CLASS = "com.google.android.gms.maps.SupportMapFragment";
+    private static final String GOOGLE_MAP_FRAGMENT_WRAPPER_CLASS = "com.idamobile.map.google.v2.MapFragmentWrapper";
 
     private Map<Class<?>, Constructor<? extends MapViewBase>> wrappers = new HashMap<Class<?>, Constructor<? extends MapViewBase>>();
 
@@ -36,6 +38,9 @@ public class MapViewWrapper {
         if (!tryToLoadWrapper(context, YANDEX_MAP_VIEW_CLASS, YANDEX_MAP_WRAPPER_CLASS)) {
             Log.w(TAG, "failed to load yandex map wrapper");
         }
+        if (!tryToLoadWrapper(context, GOOGLE_MAP_FRAGMENT_CLASS, GOOGLE_MAP_FRAGMENT_WRAPPER_CLASS)) {
+            Log.w(TAG, "failed to load google v2 map fragment wrapper");
+        }
     }
 
     private boolean tryToLoadWrapper(Context context, String mapViewClassName, String mapViewWrapperClassName) {
@@ -52,19 +57,19 @@ public class MapViewWrapper {
         }
     }
 
-    public MapViewBase wrap(View mapView) {
+    public MapViewBase wrap(Object map) {
         for (Class<?> clazz : wrappers.keySet()) {
-            if (clazz.isInstance(mapView)) {
+            if (clazz.isInstance(map)) {
                 Constructor<? extends MapViewBase> cons = wrappers.get(clazz);
                 if (cons != null) {
                     try {
-                        return cons.newInstance(mapView);
+                        return cons.newInstance(map);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
         }
-        throw new IllegalArgumentException("This view " + mapView + " isn't mapView or not supported");
+        throw new IllegalArgumentException("This view " + map + " isn't mapView or not supported");
     }
 }

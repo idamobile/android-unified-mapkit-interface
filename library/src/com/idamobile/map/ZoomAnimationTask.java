@@ -6,24 +6,24 @@ public class ZoomAnimationTask implements Runnable {
     public static long DEFAULT_DELAY_MILLIS = 100;
 
     private IGeoPoint geoPoint;
-    private int zoomLevel;
+    private float zoomLevel;
     private MapControllerBase mapController;
     private long delayMillis;
     private boolean canceled;
 
     private Handler handler;
 
-    private int previousZoomLevel = -1;
+    private float previousZoomLevel = -1;
 
-    public ZoomAnimationTask(IGeoPoint geoPoint, int zoomLevel, MapControllerBase mapController) {
+    public ZoomAnimationTask(IGeoPoint geoPoint, float zoomLevel, MapControllerBase mapController) {
         this(geoPoint, zoomLevel, mapController, null);
     }
 
-    public ZoomAnimationTask(IGeoPoint geoPoint, int zoomLevel, MapControllerBase mapController, Handler handler) {
+    public ZoomAnimationTask(IGeoPoint geoPoint, float zoomLevel, MapControllerBase mapController, Handler handler) {
         this(geoPoint, zoomLevel, mapController, handler, DEFAULT_DELAY_MILLIS);
     }
 
-    public ZoomAnimationTask(IGeoPoint geoPoint, int zoomLevel, MapControllerBase mapController, Handler handler, long delayMillis) {
+    public ZoomAnimationTask(IGeoPoint geoPoint, float zoomLevel, MapControllerBase mapController, Handler handler, long delayMillis) {
         this.geoPoint = geoPoint;
         this.zoomLevel = zoomLevel;
         this.mapController = mapController;
@@ -56,7 +56,7 @@ public class ZoomAnimationTask implements Runnable {
 
     @Override
     public void run() {
-        int currentZoomLevel = mapController.getZoomLevel();
+        float currentZoomLevel = mapController.getZoomLevel();
         if (currentZoomLevel != zoomLevel && !canceled) {
             if (currentZoomLevel > zoomLevel) {
                 if (currentZoomLevel < previousZoomLevel || previousZoomLevel == -1) {

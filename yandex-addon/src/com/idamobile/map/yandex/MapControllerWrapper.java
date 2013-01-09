@@ -33,22 +33,22 @@ class MapControllerWrapper implements MapControllerBase {
     }
 
     @Override
-    public void animateTo(IGeoPoint center, int zoomLevel) {
+    public void animateTo(IGeoPoint center, float zoomLevel) {
         mapController.setPositionAnimationTo(new UniversalGeoPoint(center).createYandexPoint(), zoomLevel);
     }
 
     @Override
-    public int getZoomLevel() {
-        return (int) mapController.getZoomCurrent();
+    public float getZoomLevel() {
+        return mapController.getZoomCurrent();
     }
 
     @Override
-    public int getMaxZoomLevel() {
+    public float getMaxZoomLevel() {
         return MapModel.MAX_ZOOM;
     }
 
     @Override
-    public void setZoomLevel(int zoomLevel) {
+    public void setZoomLevel(float zoomLevel) {
         mapController.setZoomCurrent(zoomLevel);
     }
 

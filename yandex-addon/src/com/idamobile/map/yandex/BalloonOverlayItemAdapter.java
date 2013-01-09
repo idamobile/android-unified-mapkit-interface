@@ -1,5 +1,6 @@
 package com.idamobile.map.yandex;
 
+import android.view.View;
 import ru.yandex.yandexmapkit.overlay.OverlayItem;
 import ru.yandex.yandexmapkit.overlay.balloon.BalloonItem;
 import android.content.Context;
@@ -32,6 +33,12 @@ class BalloonOverlayItemAdapter implements OverlayItemAdapter {
             public void inflateView(Context arg0) {
                 model = (ViewGroup) balloonAdapter.createView(context);
                 balloonAdapter.bindView(context, model, item);
+                model.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        balloonAdapter.onBalloonClick(item);
+                    }
+                });
             }
         });
         return result;

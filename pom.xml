@@ -14,6 +14,7 @@
     <modules>
         <module>library</module>
         <module>google-addon</module>
+        <module>google-v2-addon</module>
         <module>yandex-addon</module>
     </modules>
 

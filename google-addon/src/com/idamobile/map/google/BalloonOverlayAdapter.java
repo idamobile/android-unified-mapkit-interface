@@ -68,6 +68,11 @@ class BalloonOverlayAdapter<T extends OverlayItemBase> extends ItemizedOverlayAd
             public boolean onTap(GeoPoint arg0, MapView arg1) {
                 return overlay.onTap(new UniversalGeoPoint(arg0), mapViewBase) || super.onTap(arg0, arg1);
             }
+
+            @Override
+            protected void onBalloonClick(OverlayItem item) {
+                overlayExtension.getAdapter().onBalloonClick(getOriginalItem(item));
+            }
         };
     }
 

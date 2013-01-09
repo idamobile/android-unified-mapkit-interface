@@ -134,7 +134,7 @@ abstract class BalloonItemListOverlay extends ItemListOverlay {
         }
     }
 
-    private boolean createAndDisplayBalloonOverlay(OverlayItem overlayItem, Animation animation) {
+    private boolean createAndDisplayBalloonOverlay(final OverlayItem overlayItem, Animation animation) {
         boolean isRecycled;
         if (balloonView == null) {
             balloonView = createBalloonOverlayView(context);
@@ -143,6 +143,12 @@ abstract class BalloonItemListOverlay extends ItemListOverlay {
             isRecycled = true;
         }
         bindView(context, balloonView, overlayItem);
+        balloonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBalloonClick(overlayItem);
+            }
+        });
         hideOtherBalloons();
 
         GeoPoint point = overlayItem.getPoint();
@@ -168,5 +174,7 @@ abstract class BalloonItemListOverlay extends ItemListOverlay {
     protected abstract View createBalloonOverlayView(Context context);
 
     protected abstract void bindView(Context context, View balloonView, OverlayItem item);
+
+    protected abstract void onBalloonClick(OverlayItem item);
 
 }
