@@ -70,4 +70,24 @@ public class UniversalGeoPoint implements IGeoPoint {
     public static int fromDoubleTo1e6(double coord) {
         return (int) (coord * 1e6);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UniversalGeoPoint that = (UniversalGeoPoint) o;
+
+        if (latE6 != that.latE6) return false;
+        if (longE6 != that.longE6) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = latE6;
+        result = 31 * result + longE6;
+        return result;
+    }
 }

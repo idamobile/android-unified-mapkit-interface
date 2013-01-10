@@ -43,4 +43,6 @@ public interface MapViewBase extends Iterable<OverlayBase> {
 
     void invalidate();
 
+    boolean isAvailable();
+
 }

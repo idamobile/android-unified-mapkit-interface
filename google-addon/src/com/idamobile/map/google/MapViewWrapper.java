@@ -59,6 +59,11 @@ public class MapViewWrapper implements MapViewBase {
     }
 
     @Override
+    public boolean isAvailable() {
+        return true;
+    }
+
+    @Override
     public Context getContext() {
         return mapView.getContext();
     }

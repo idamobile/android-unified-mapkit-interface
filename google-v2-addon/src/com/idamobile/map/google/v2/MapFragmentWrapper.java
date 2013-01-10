@@ -27,6 +27,11 @@ public class MapFragmentWrapper implements MapViewBase {
         init();
     }
 
+    @Override
+    public boolean isAvailable() {
+        return googleMap != null;
+    }
+
     private boolean innerCall;
 
     private void init() {

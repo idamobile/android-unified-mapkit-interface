@@ -1,15 +1,14 @@
 package com.idamobile.map.google;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 class ItemListOverlay extends ItemizedOverlay<OverlayItem> {
 
