@@ -42,6 +42,9 @@ public class MapFragmentWrapper implements MapViewBase {
 
                 if (googleMap != null) {
                     googleMap.getUiSettings().setAllGesturesEnabled(true);
+                    googleMap.getUiSettings().setCompassEnabled(false);
+                    googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                    googleMap.getUiSettings().setZoomControlsEnabled(false);
                 }
             }
 
@@ -161,7 +164,6 @@ public class MapFragmentWrapper implements MapViewBase {
 
     @Override
     public void invalidate() {
-        getView().invalidate();
     }
 
     @Override
