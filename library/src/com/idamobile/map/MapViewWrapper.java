@@ -53,6 +53,7 @@ public class MapViewWrapper {
             wrappers.put(mapViewClass, constructor);
             return true;
         } catch (Exception e) {
+            Log.d(TAG, "failed to load wrapper " + mapViewWrapperClassName, e);
             return false;
         }
     }
