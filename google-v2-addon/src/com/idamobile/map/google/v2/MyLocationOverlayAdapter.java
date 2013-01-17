@@ -71,7 +71,7 @@ class MyLocationOverlayAdapter extends AbstractMyLocationOverlay implements Over
 
     @Override
     public IGeoPoint getMyLocation() {
-        return googleMap.getMyLocation() != null
+        return (isMyLocationEnabled() && googleMap.getMyLocation() != null)
                 ? new UniversalGeoPoint(googleMap.getMyLocation())
                 : null;
     }
