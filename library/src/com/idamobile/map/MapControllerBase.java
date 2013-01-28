@@ -23,8 +23,6 @@ public interface MapControllerBase {
 
     void zoomOut();
 
-    int getLatitudeSpan();
-
-    int getLongitudeSpan();
+    UniversalGeoRect getVisibleRegion();
 
 }

@@ -2,6 +2,7 @@ package com.idamobile.map.yandex;
 
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
+import com.idamobile.map.UniversalGeoRect;
 import ru.yandex.yandexmapkit.MapController;
 import ru.yandex.yandexmapkit.MapModel;
 import ru.yandex.yandexmapkit.utils.GeoPoint;
@@ -69,19 +70,9 @@ class MapControllerWrapper implements MapControllerBase {
     }
 
     @Override
-    public int getLatitudeSpan() {
-        GeoPoint leftTopCorner = mapController.getGeoPoint(new ScreenPoint(0, 0));
-        GeoPoint rightBottomCorner = mapController.getGeoPoint(
-                new ScreenPoint(mapController.getMapView().getWidth(), mapController.getMapView().getHeight()));
-        return Math.abs(UniversalGeoPoint.fromDoubleTo1e6(rightBottomCorner.getLat() - leftTopCorner.getLat()));
+    public UniversalGeoRect getVisibleRegion() {
+        GeoPoint rightTopCorner = mapController.getGeoPoint(new ScreenPoint(mapController.getMapView().getWidth(), 0));
+        GeoPoint leftBottomCorner = mapController.getGeoPoint(new ScreenPoint(0, mapController.getMapView().getHeight()));
+        return new UniversalGeoRect(new UniversalGeoPoint(rightTopCorner), new UniversalGeoPoint(leftBottomCorner));
     }
-
-    @Override
-    public int getLongitudeSpan() {
-        GeoPoint leftTopCorner = mapController.getGeoPoint(new ScreenPoint(0, 0));
-        GeoPoint rightBottomCorner = mapController.getGeoPoint(
-                new ScreenPoint(mapController.getMapView().getWidth(), mapController.getMapView().getHeight()));
-        return Math.abs(UniversalGeoPoint.fromDoubleTo1e6(rightBottomCorner.getLon() - leftTopCorner.getLon()));
-    }
-
 }

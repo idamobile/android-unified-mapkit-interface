@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
+import com.idamobile.map.UniversalGeoRect;
 
 class MapControllerWrapper implements MapControllerBase {
 
@@ -78,14 +79,9 @@ class MapControllerWrapper implements MapControllerBase {
     }
 
     @Override
-    public int getLatitudeSpan() {
+    public UniversalGeoRect getVisibleRegion() {
         VisibleRegion region = googleMap.getProjection().getVisibleRegion();
-        return UniversalGeoPoint.fromDoubleTo1e6(Math.abs(region.farRight.latitude - region.farLeft.latitude));
-    }
-
-    @Override
-    public int getLongitudeSpan() {
-        VisibleRegion region = googleMap.getProjection().getVisibleRegion();
-        return UniversalGeoPoint.fromDoubleTo1e6(Math.abs(region.farRight.longitude - region.farLeft.longitude));
+        return new UniversalGeoRect(new UniversalGeoPoint(region.latLngBounds.northeast),
+                new UniversalGeoPoint(region.latLngBounds.southwest));
     }
 }

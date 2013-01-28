@@ -1,9 +1,11 @@
 package com.idamobile.map.google;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.idamobile.map.IGeoPoint;
 import com.idamobile.map.MapControllerBase;
+import com.idamobile.map.UniversalGeoRect;
 import com.idamobile.map.ZoomAnimationTask;
 
 class MapControllerWrapper implements MapControllerBase {
@@ -77,12 +79,9 @@ class MapControllerWrapper implements MapControllerBase {
     }
 
     @Override
-    public int getLatitudeSpan() {
-        return mapView.getLatitudeSpan();
-    }
-
-    @Override
-    public int getLongitudeSpan() {
-        return mapView.getLongitudeSpan();
+    public UniversalGeoRect getVisibleRegion() {
+        GeoPoint rightTopPoint = mapView.getProjection().fromPixels(mapView.getWidth(), 0);
+        GeoPoint leftBottomPoint = mapView.getProjection().fromPixels(0, mapView.getHeight());
+        return new UniversalGeoRect(new UniversalGeoPoint(rightTopPoint), new UniversalGeoPoint(leftBottomPoint));
     }
 }
