@@ -1,21 +1,16 @@
 package com.idamobile.map.google;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import android.database.DataSetObserver;
 import android.view.MotionEvent;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.idamobile.map.ItemizedOverlayBase;
 import com.idamobile.map.MapViewBase;
 import com.idamobile.map.OverlayItemBase;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver implements OverlayAdapter {
 
@@ -48,7 +43,15 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
 
             @Override
             protected boolean onTap(int arg0) {
-                return overlay.onTap(overlay.getItem(arg0));
+                Iterator<T> iter = overlay.getItems().iterator();
+                for (int i = 0; i < arg0 && iter.hasNext(); i++) {
+                    iter.next();
+                }
+                if (iter.hasNext()) {
+                    return overlay.onTap(iter.next());
+                } else {
+                    return false;
+                }
             }
         };
     }
@@ -89,8 +92,7 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
         resultOverlay.beginUpdate();
 
         Set<T> baseItems = new HashSet<T>(baseOverlay.getItemCount());
-        for (int i = 0; i < baseOverlay.getItemCount(); i++) {
-            T itemBase = baseOverlay.getItem(i);
+        for (T itemBase : baseOverlay.getItems()) {
             baseItems.add(itemBase);
 
             OverlayItem resultItem = adoptItems.get(itemBase);

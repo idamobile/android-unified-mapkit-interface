@@ -1,34 +1,35 @@
 package com.idamobile.map;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
+import java.util.*;
+
 public class ItemListOverlay<T extends OverlayItemBase> implements ItemizedOverlayBase<T> {
 
-    private List<T> items = new ArrayList<T>();
+    private Set<T> items = new HashSet<T>();
     private Drawable defaultMarker;
     private DataSetObservable observable = new DataSetObservable();
-
-    public ItemListOverlay() {
-    }
 
     public ItemListOverlay(Drawable defaultMarker) {
         this.defaultMarker = defaultMarker;
     }
 
     @Override
-    public T getItem(int index) {
-        return items.get(index);
+    public Collection<T> getItems() {
+        return Collections.unmodifiableCollection(items);
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public boolean contains(T item) {
+        return items.contains(item);
     }
 
     @Override
@@ -45,6 +46,17 @@ public class ItemListOverlay<T extends OverlayItemBase> implements ItemizedOverl
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void apply(Collection<T> toRemove, Collection<T> toAdd) {
+        for (T item : toRemove) {
+            items.remove(item);
+        }
+        for (T item : toAdd) {
+            items.add(item);
+        }
+        notifyDataSetChanged();
     }
 
     @Override

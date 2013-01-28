@@ -88,8 +88,7 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
 
     private void refreshOverlay() {
         Set<T> baseItems = new HashSet<T>(baseOverlay.getItemCount());
-        for (int i = 0; i < baseOverlay.getItemCount(); i++) {
-            T itemBase = baseOverlay.getItem(i);
+        for (T itemBase : baseOverlay.getItems()) {
             baseItems.add(itemBase);
 
             MarkerOptions resultItem = adoptItems.get(itemBase);
