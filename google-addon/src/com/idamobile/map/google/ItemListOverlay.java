@@ -15,11 +15,24 @@ class ItemListOverlay extends ItemizedOverlay<OverlayItem> {
     private List<OverlayItem> items = new ArrayList<OverlayItem>();
     private boolean isUpdating;
     private boolean ignoreShadow;
+    private float anchorU;
+    private float anchorV;
 
-    public ItemListOverlay(Drawable marker) {
-        super(boundCenterBottom(marker));
+    public ItemListOverlay(Drawable marker, float anchorU, float anchorV) {
+        super(bound(marker, anchorU, anchorV));
+        this.anchorU = anchorU;
+        this.anchorV = anchorV;
 
         populate();
+    }
+
+    public static Drawable bound(Drawable drawable, float anchorU, float anchorV) {
+        if (drawable != null && drawable.getIntrinsicHeight() != -1 && drawable.getIntrinsicWidth() != -1) {
+            int x = (int) (-drawable.getIntrinsicWidth() * anchorU);
+            int y = (int) (-drawable.getIntrinsicHeight() * anchorV);
+            drawable.setBounds(x, y, x + drawable.getIntrinsicWidth(), y + drawable.getIntrinsicHeight());
+        }
+        return drawable;
     }
 
     public void setIgnoreShadow(boolean ignoreShadow) {

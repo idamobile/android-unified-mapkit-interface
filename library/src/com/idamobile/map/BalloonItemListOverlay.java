@@ -8,10 +8,14 @@ BalloonOverlayExtension<T> {
     private boolean initWithAdapterWasCalled;
     private BalloonAdapter balloonAdapter;
 
-    private BallonController ballonController;
+    private BalloonController balloonController;
 
     public BalloonItemListOverlay(Drawable defaultMarker) {
         super(defaultMarker);
+    }
+
+    public BalloonItemListOverlay(Drawable defaultMarker, float anchorU, float anchorV) {
+        super(defaultMarker, anchorU, anchorV);
     }
 
     @Override
@@ -30,13 +34,13 @@ BalloonOverlayExtension<T> {
     }
 
     @Override
-    public com.idamobile.map.BalloonOverlayExtension.BallonController getBalloonController() {
-        return ballonController;
+    public BalloonController getBalloonController() {
+        return balloonController;
     }
 
     @Override
-    public void setBalloonController(com.idamobile.map.BalloonOverlayExtension.BallonController ballonController) {
-        this.ballonController = ballonController;
+    public void setBalloonController(BalloonController balloonController) {
+        this.balloonController = balloonController;
     }
 
 }

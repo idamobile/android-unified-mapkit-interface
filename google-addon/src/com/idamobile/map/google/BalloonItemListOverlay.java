@@ -27,11 +27,11 @@ abstract class BalloonItemListOverlay extends ItemListOverlay {
     private Animation hideAnimation;
 
     public BalloonItemListOverlay(MapViewBase mapViewBase) {
-        this(mapViewBase, null);
+        this(mapViewBase, null, 0, 0);
     }
 
-    public BalloonItemListOverlay(MapViewBase mapViewBase, Drawable defaultMarker) {
-        super(defaultMarker);
+    public BalloonItemListOverlay(MapViewBase mapViewBase, Drawable defaultMarker, float anchorU, float anchorV) {
+        super(defaultMarker, anchorU, anchorV);
         this.mapViewBase = mapViewBase;
         this.mapView = (MapView) mapViewBase.getView();
         this.context = mapViewBase.getContext();

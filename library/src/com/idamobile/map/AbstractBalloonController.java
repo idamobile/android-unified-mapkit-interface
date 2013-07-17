@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.idamobile.map.BalloonOverlayExtension.BallonController;
+import com.idamobile.map.BalloonOverlayExtension.BalloonController;
 
-public abstract class AbstractBalloonController implements BallonController {
+public abstract class AbstractBalloonController implements BalloonController {
 
     private Animation showAnimation;
     private Animation hideAnimation;

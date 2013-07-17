@@ -8,11 +8,7 @@ import android.view.animation.Animation;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-import com.idamobile.map.AbstractBalloonController;
-import com.idamobile.map.BalloonOverlayExtension;
-import com.idamobile.map.ItemizedOverlayBase;
-import com.idamobile.map.MapViewBase;
-import com.idamobile.map.OverlayItemBase;
+import com.idamobile.map.*;
 
 class BalloonOverlayAdapter<T extends OverlayItemBase> extends ItemizedOverlayAdapter<T> {
 
@@ -47,8 +43,14 @@ class BalloonOverlayAdapter<T extends OverlayItemBase> extends ItemizedOverlayAd
     @SuppressWarnings("unchecked")
     @Override
     protected ItemListOverlay wrapOverlay(final ItemizedOverlayBase<T> overlay, final MapViewBase mapViewBase) {
+        float markerAnchorU = 0.5f;
+        float markerAnchorV = 1f;
+        if (overlay instanceof ItemizedOverlayBaseV2) {
+            markerAnchorU = ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorU();
+            markerAnchorV = ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorV();
+        }
         final BalloonOverlayExtension<T> overlayExtension = (BalloonOverlayExtension<T>) overlay;
-        return new BalloonItemListOverlay(mapViewBase, overlay.getMarker()) {
+        return new BalloonItemListOverlay(mapViewBase, overlay.getMarker(), markerAnchorU, markerAnchorV) {
             @Override
             protected View createBalloonOverlayView(Context context) {
                 return overlayExtension.getAdapter().createView(context);

@@ -14,7 +14,7 @@ public interface BalloonOverlayExtension<T extends OverlayItemBase> {
         void onBalloonClick(OverlayItemBase item);
     }
 
-    public interface BallonController {
+    public interface BalloonController {
 
         boolean isBalloonShowing();
 
@@ -37,16 +37,16 @@ public interface BalloonOverlayExtension<T extends OverlayItemBase> {
     /**
      * Returns BalloonController when overlay is attached to MapViewBase
      * 
-     * @return BallonController or null if overlay isn't attached
+     * @return BalloonController or null if overlay isn't attached
      */
-    BallonController getBalloonController();
+    BalloonController getBalloonController();
 
     /**
      * Should be called only by map interface implementation.
      * 
-     * @param ballonController
+     * @param balloonController
      *            controller
      */
-    void setBalloonController(BallonController ballonController);
+    void setBalloonController(BalloonController balloonController);
 
 }

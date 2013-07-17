@@ -6,6 +6,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.idamobile.map.ItemizedOverlayBase;
+import com.idamobile.map.ItemizedOverlayBaseV2;
 import com.idamobile.map.MapViewBase;
 import com.idamobile.map.OverlayItemBase;
 
@@ -30,7 +31,13 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
     }
 
     protected ItemListOverlay wrapOverlay(final ItemizedOverlayBase<T> overlay, final MapViewBase mapViewBase) {
-        return new ItemListOverlay(overlay.getMarker()) {
+        float markerAnchorU = 0.5f;
+        float markerAnchorV = 1f;
+        if (overlay instanceof ItemizedOverlayBaseV2) {
+            markerAnchorU = ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorU();
+            markerAnchorV = ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorV();
+        }
+        return new ItemListOverlay(overlay.getMarker(), markerAnchorU, markerAnchorV) {
             @Override
             public boolean onTouchEvent(MotionEvent arg0, MapView arg1) {
                 return overlay.onTouchEvent(arg0, mapViewBase) || super.onTouchEvent(arg0, arg1);

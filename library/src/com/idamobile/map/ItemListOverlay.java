@@ -7,14 +7,23 @@ import android.view.MotionEvent;
 
 import java.util.*;
 
-public class ItemListOverlay<T extends OverlayItemBase> implements ItemizedOverlayBase<T> {
+public class ItemListOverlay<T extends OverlayItemBase> implements ItemizedOverlayBaseV2<T> {
 
     private Set<T> items = new HashSet<T>();
     private Drawable defaultMarker;
+    private float anchorU;
+    private float anchorV;
+
     private DataSetObservable observable = new DataSetObservable();
 
     public ItemListOverlay(Drawable defaultMarker) {
+        this(defaultMarker, 0.5f, 1f);
+    }
+
+    public ItemListOverlay(Drawable defaultMarker, float anchorU, float anchorV) {
         this.defaultMarker = defaultMarker;
+        this.anchorU = anchorU;
+        this.anchorV = anchorV;
     }
 
     @Override
@@ -68,6 +77,16 @@ public class ItemListOverlay<T extends OverlayItemBase> implements ItemizedOverl
     @Override
     public Drawable getMarker() {
         return defaultMarker;
+    }
+
+    @Override
+    public float getMarkerAnchorU() {
+        return anchorU;
+    }
+
+    @Override
+    public float getMarkerAnchorV() {
+        return anchorV;
     }
 
     @Override

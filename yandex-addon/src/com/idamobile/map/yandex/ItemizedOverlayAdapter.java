@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.idamobile.map.ItemizedOverlayBaseV2;
 import ru.yandex.yandexmapkit.overlay.Overlay;
 import ru.yandex.yandexmapkit.overlay.OverlayItem;
 import ru.yandex.yandexmapkit.utils.GeoPoint;
@@ -26,7 +27,9 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
     private OverlayItemAdapter itemAdapter;
 
     public ItemizedOverlayAdapter(MapViewWrapper mapViewWrapper, ItemizedOverlayBase<T> overlay) {
-        this(mapViewWrapper, overlay, new SimpleOverlayItemAdapter(overlay.getMarker()));
+        this(mapViewWrapper, overlay, new SimpleOverlayItemAdapter(overlay.getMarker(),
+                overlay instanceof ItemizedOverlayBaseV2 ? ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorU() : 0.5f,
+                overlay instanceof ItemizedOverlayBaseV2 ? ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorV() : 1f));
     }
 
     public ItemizedOverlayAdapter(MapViewWrapper mapViewWrapper, ItemizedOverlayBase<T> overlay,

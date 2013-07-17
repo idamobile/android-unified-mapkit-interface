@@ -5,6 +5,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.idamobile.map.ItemizedOverlayBase;
+import com.idamobile.map.ItemizedOverlayBaseV2;
 import com.idamobile.map.OverlayItemBase;
 
 import java.util.*;
@@ -29,7 +30,9 @@ class ItemizedOverlayAdapter<T extends OverlayItemBase> extends DataSetObserver 
 
     private void init(ItemizedOverlayBase<T> overlay) {
         this.resultOverlay = wrapOverlay(mapFragmentWrapper.getGoogleMap(), mapFragmentWrapper.getOverlayManager(), overlay);
-        this.itemAdapter = new OverlayItemAdapter(baseOverlay.getMarker());
+        this.itemAdapter = new OverlayItemAdapter(baseOverlay.getMarker(),
+                overlay instanceof ItemizedOverlayBaseV2 ? ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorU() : 0.5f,
+                overlay instanceof ItemizedOverlayBaseV2 ? ((ItemizedOverlayBaseV2) overlay).getMarkerAnchorV() : 1f);
 
         baseOverlay.registerDataSetObserver(this);
         refreshOverlay();

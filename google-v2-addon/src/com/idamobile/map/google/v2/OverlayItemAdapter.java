@@ -7,18 +7,25 @@ import android.graphics.drawable.Drawable;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.idamobile.map.OverlayItemBase;
+import com.idamobile.map.OverlayItemBaseV2;
 
 class OverlayItemAdapter {
 
     private Drawable defaultMarker;
+    private float anchorU;
+    private float anchorV;
 
-    public OverlayItemAdapter(Drawable defaultMarker) {
+    public OverlayItemAdapter(Drawable defaultMarker, float anchorU, float anchorV) {
         this.defaultMarker = defaultMarker;
+        this.anchorU = anchorU;
+        this.anchorV = anchorV;
     }
 
     public MarkerOptions getItem(OverlayItemBase item) {
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.anchor(0.5f, 1f);
+        markerOptions.anchor(
+                item instanceof OverlayItemBaseV2 ? ((OverlayItemBaseV2) item).getMarkerAnchorU() : anchorU,
+                item instanceof OverlayItemBaseV2 ? ((OverlayItemBaseV2) item).getMarkerAnchorV() : anchorV);
         if (item.getTitle() != null) {
             markerOptions.title(item.getTitle().toString());
         }
